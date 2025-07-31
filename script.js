@@ -1,24 +1,27 @@
-//your JS code here. If required.
 let messages = [];
 
 function submitMessage() {
-  const input = document.querySelector('input');
+  const input = document.getElementById('text');
+  const delayInput = document.getElementById('delay');
   const output = document.getElementById('output');
+
   const message = input.value.trim();
+  const delay = parseInt(delayInput.value) || 0;
 
   if (message) {
-    messages.push(message); 
-    input.value = ''; 
+    messages.push({ text: message, delay });
+    input.value = "";
+    delayInput.value = "";
   }
 
-  if (messages.length > 0) {
-    const msg = messages.shift(); 
-    output.innerText = msg;
+  if (output.innerText === "" && messages.length > 0) {
+    const current = messages.shift();
+    output.innerText = current.text;
 
     setTimeout(() => {
-      output.innerText = '';
-    }, 2000);
+      output.innerText = "";
+    }, current.delay);
   }
 }
 
-document.getElementById('submitBtn').addEventListener('click', submitMessage);
+document.getElementById('btn').addEventListener('click', submitMessage);
