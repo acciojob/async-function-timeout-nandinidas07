@@ -1,4 +1,4 @@
-let messages = [];
+let timeoutId=null;
 
 function submitMessage() {
   const input = document.getElementById('text');
@@ -8,20 +8,20 @@ function submitMessage() {
   const message = input.value.trim();
   const delay = parseInt(delayInput.value) || 0;
 
-  if (message) {
-    messages.push({ text: message, delay });
-    input.value = "";
-    delayInput.value = "";
-  }
+ if (message === "" || isNaN(delay)) return;
 
-  if (output.innerText === "" && messages.length > 0) {
-    const current = messages.shift();
-    output.innerText = current.text;
+  output.innerText = message;
 
-    setTimeout(() => {
-      output.innerText = "";
-    }, current.delay);
-  }
+
+  if (timeoutId) clearTimeout(timeoutId);
+
+
+  timeoutId = setTimeout(() => {
+    output.innerText = "";
+  }, delay);
+
+  input.value = "";
+  delayInput.value = "";
 }
 
 document.getElementById('btn').addEventListener('click', submitMessage);
